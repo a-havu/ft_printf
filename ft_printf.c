@@ -6,12 +6,11 @@
 /*   By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 09:19:32 by ahavu             #+#    #+#             */
-/*   Updated: 2024/11/28 15:37:54 by ahavu            ###   ########.fr       */
+/*   Updated: 2024/12/05 10:00:24 by ahavu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
-#include <stdio.h>
 
 static int	print_arg(va_list args, char x)
 {
@@ -32,33 +31,44 @@ static int	print_arg(va_list args, char x)
 	return (0);
 }
 
-int	ft_printf(const char *initial_str, ...)
+static int	print_loop(const char *initial_str, va_list args)
 {
-	int		i;
-	int		len;
-	va_list	args;
+	int	i;
+	int	len;
+	int	tmp;
 
-	if (!initial_str)
-		return (-1);
-	va_start (args, initial_str);
 	i = 0;
 	len = 0;
 	while (initial_str[i])
 	{
 		if (initial_str[i] == '%' && (initial_str[i + 1]
-		&& ft_strchr("cspdiuxX%", initial_str[i + 1])))
+				&& ft_strchr("cspdiuxX%", initial_str[i + 1])))
 		{
-			i++;
-			len += print_arg(args, initial_str[i]);
+			tmp = print_arg(args, initial_str[++i]);
+			if (tmp < 0)
+				return (-1);
+			len += tmp;
 			i++;
 		}
 		else
 		{
-			print_char(initial_str[i]);
+			if (print_char(initial_str[i++]) < 0)
+				return (-1);
 			len++;
-			i++;
 		}
 	}
-	va_end(args);
 	return (len);
+}
+
+int	ft_printf(const char *initial_str, ...)
+{
+	int		ret;
+	va_list	args;
+
+	if (!initial_str)
+		return (-1);
+	va_start (args, initial_str);
+	ret = print_loop(initial_str, args);
+	va_end(args);
+	return (ret);
 }

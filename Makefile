@@ -6,7 +6,7 @@
 #    By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/25 09:22:14 by ahavu             #+#    #+#              #
-#    Updated: 2024/11/28 12:07:06 by ahavu            ###   ########.fr        #
+#    Updated: 2024/12/05 09:57:16 by ahavu            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,8 @@ SOURCES =	ft_printf.c print_char.c print_hex.c print_nbr.c \
 
 OBJECTS = $(SOURCES:.c=.o)
 
+HEADER = $(NAME:.a=.h)
+
 CC = cc
 
 CFLAGS = -Wall -Wextra -Werror
@@ -26,8 +28,8 @@ all: $(NAME)
 $(NAME): $(OBJECTS)
 	ar	-rcs	$(NAME)	$(OBJECTS)
 
-%.o: %.c 
-	$(CC) $(CFLAGS) -c -o $@ $<
+%.o: %.c $(HEADER)
+	$(CC) $(CFLAGS) -c $<
 
 clean:
 	rm -f $(OBJECTS)

@@ -6,7 +6,7 @@
 /*   By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:47:00 by ahavu             #+#    #+#             */
-/*   Updated: 2024/11/28 14:29:30 by ahavu            ###   ########.fr       */
+/*   Updated: 2024/11/29 14:39:42 by ahavu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,16 @@
 int	print_ptr(uintptr_t ptr)
 {
 	int	len;
+	int	tmp;
 
 	if (!ptr)
 		return (print_str("(nil)"));
-	print_str("0x");
+	if (print_str("0x") < 0)
+		return (-1);
 	len = 2;
-	len += print_hex(ptr, 'x');
+	tmp = print_hex(ptr, 'x');
+	if (tmp < 0)
+		return (-1);
+	len += tmp;
 	return (len);
 }

@@ -6,12 +6,11 @@
 /*   By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 11:57:03 by ahavu             #+#    #+#             */
-/*   Updated: 2024/11/28 12:06:19 by ahavu            ###   ########.fr       */
+/*   Updated: 2024/12/04 09:39:02 by ahavu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
-#include <stdio.h>
 
 static size_t	ft_strlen(const char *s)
 {

@@ -6,7 +6,7 @@
 /*   By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:33:43 by ahavu             #+#    #+#             */
-/*   Updated: 2024/11/28 15:46:35 by ahavu            ###   ########.fr       */
+/*   Updated: 2024/11/29 14:39:22 by ahavu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,35 @@ static int	handle_edgecase(int n)
 
 	res = 0;
 	if (n == -2147483648)
-	{
-		print_str("-2147483648");
-		res = 11;
-	}
+		res = print_str("-2147483648");
 	else if (n == 0)
-	{
-		print_char('0');
-		res = 1;
-	}
+		res = print_char('0');
+	if (res < 0)
+		return (-1);
 	return (res);
+}
+
+static int	conversion(int n, int i)
+{
+	char	c;
+	int		ret;
+
+	if (n >= 10)
+	{
+		ret = print_nbr(n / 10);
+		if (ret < 0)
+			return (-1);
+		i += ret;
+	}
+	c = (n % 10) + 48;
+	if (print_char(c) < 0)
+		return (-1);
+	i++;
+	return (i);
 }
 
 int	print_nbr(int n)
 {
-	char	c;
 	int		i;
 
 	i = 0;
@@ -41,14 +55,9 @@ int	print_nbr(int n)
 	if (n < 0)
 	{
 		n = -n;
-		c = '-';
-		print_char(c);
+		if (print_char('-') < 0)
+			return (-1);
 		i++;
 	}
-	if (n >= 10)
-		i += print_nbr(n / 10);
-	c = (n % 10) + 48;
-	print_char(c);
-	i++;
-	return (i);
+	return (conversion(n, i));
 }
